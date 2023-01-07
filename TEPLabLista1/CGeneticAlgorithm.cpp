@@ -7,12 +7,12 @@ CGeneticAlgorithm::CGeneticAlgorithm(int popSize, float crossProb, float mutProb
 	f_cross_prob = crossProb;
 	f_mut_prob = mutProb;
 
-	pc_best_solution = std::vector<short>();
+	pc_best_solution = std::vector<bool>();
 	i_best_solution_fitness = -1;
 	i_number_of_populations = 0;
 }
 
-std::vector<short> CGeneticAlgorithm::pc_get_best_solution() {
+std::vector<bool> CGeneticAlgorithm::pc_get_best_solution() {
 	return pc_best_solution;
 }
 
@@ -24,7 +24,7 @@ std::vector<CIndividual*> CGeneticAlgorithm::pc_generate_population(int iGenotyp
 	std::uniform_int_distribution<> distrib(0, 1);
 
 	for (int i = 0; i < i_pop_size; i++) {
-		std::vector<short> genome(iGenotypeSize);
+		std::vector<bool> genome(iGenotypeSize);
 		for (int j = 0; j < iGenotypeSize; j++)
 			genome[j] = distrib(gen);
 		pcPopulation[i] = new CIndividual(genome);
@@ -75,10 +75,10 @@ std::vector<CIndividual*> CGeneticAlgorithm::pc_cross_population(std::vector<CIn
 void CGeneticAlgorithm::v_mutate_population(std::vector<CIndividual*>& population) {
 	srand(time(NULL));
 	for (int i = 0; i < population.size(); i++) {
-		std::vector<short>* currentGenotype = population.at(i)->pc_get_genotype();
+		std::vector<bool>* currentGenotype = population.at(i)->pc_get_genotype();
 		for (int j = 0; j < currentGenotype->size(); j++) {
 			if (f_mut_prob > ((double)rand() / (RAND_MAX)))
-				currentGenotype->at(j) = currentGenotype->at(j) == 0 ? 1 : 0;
+				currentGenotype->at(j).flip();
 		}
 	}
 }

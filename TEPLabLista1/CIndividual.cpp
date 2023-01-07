@@ -2,7 +2,7 @@
 #include "CKnapsackProblem.h"
 #include <time.h>
 
-CIndividual::CIndividual(std::vector<short> genotype) {
+CIndividual::CIndividual(std::vector<bool> genotype) {
 	pc_genotype = genotype;
 }
 
@@ -27,7 +27,7 @@ int CIndividual::i_get_fitness() {
 	return i_fitness;
 }
 
-std::vector<short>* CIndividual::pc_get_genotype() {
+std::vector<bool>* CIndividual::pc_get_genotype() {
 	return &pc_genotype;
 }
 
@@ -41,8 +41,8 @@ std::vector<CIndividual*> CIndividual::pc_cross_individuals(CIndividual* pc_othe
 
 	std::vector<CIndividual*> children;
 
-	std::vector<short> firstNewGenotype(pc_genotype.begin(), pc_genotype.begin() + partingPoint);
-	std::vector<short> secondNewGenotype(pc_other_individual->pc_genotype.begin(), pc_other_individual->pc_genotype.begin() + partingPoint);
+	std::vector<bool> firstNewGenotype(pc_genotype.begin(), pc_genotype.begin() + partingPoint);
+	std::vector<bool> secondNewGenotype(pc_other_individual->pc_genotype.begin(), pc_other_individual->pc_genotype.begin() + partingPoint);
 
 	for (int i = partingPoint; i < pc_genotype.size(); i++) {
 		firstNewGenotype.push_back(pc_other_individual->pc_genotype.at(i));
