@@ -1,0 +1,60 @@
+#include "CIndividual.h"
+#include "CKnapsackProblem.h"
+#include <time.h>
+
+CIndividual::CIndividual(std::vector<short> genotype) {
+	pc_genotype = genotype;
+}
+
+CIndividual::CIndividual(const CIndividual& pc_other) {
+	pc_genotype = pc_other.pc_genotype;
+	i_fitness = pc_other.i_fitness;
+}
+
+void CIndividual::v_calculate_fitness(CKnapsackProblem* pcProblem) {
+	int fitness = 0;
+	int weigth = 0;
+	for (int i = 0; i < pcProblem->i_size; i++) {
+		if (pc_genotype.at(i) == 1) {
+			fitness += pcProblem->pi_values.at(i);
+			weigth += pcProblem->pi_weigths.at(i);
+		}
+	}
+	i_fitness = (weigth > pcProblem->i_capacity) ? 0 : fitness;
+}
+
+int CIndividual::i_get_fitness() {
+	return i_fitness;
+}
+
+std::vector<short>* CIndividual::pc_get_genotype() {
+	return &pc_genotype;
+}
+
+void CIndividual::v_mutate() {
+
+}
+
+std::vector<CIndividual*> CIndividual::pc_cross_individuals(CIndividual* pc_other_individual) {
+	srand(time(NULL)); //once in application?
+	int partingPoint = (rand() % (pc_genotype.size() - 1)) + 1;
+
+	std::vector<CIndividual*> children;
+
+	std::vector<short> firstNewGenotype(pc_genotype.begin(), pc_genotype.begin() + partingPoint);
+	std::vector<short> secondNewGenotype(pc_other_individual->pc_genotype.begin(), pc_other_individual->pc_genotype.begin() + partingPoint);
+
+	for (int i = partingPoint; i < pc_genotype.size(); i++) {
+		firstNewGenotype.push_back(pc_other_individual->pc_genotype.at(i));
+		secondNewGenotype.push_back(pc_genotype.at(i));
+	}
+
+	/*std::vector<short> firstNewGenotype(pc_genotype.begin(), pc_genotype.begin() + partingPoint);
+	std::vector<short> secondNewGenotype(pc_other_individual->pc_genotype.begin(), pc_other_individual->pc_genotype.begin() + partingPoint);
+	firstNewGenotype.insert(firstNewGenotype.end(), pc_other_individual->pc_genotype.begin() + partingPoint, pc_other_individual->pc_genotype.end());
+	secondNewGenotype.insert(secondNewGenotype.end(), pc_genotype.begin() + partingPoint, pc_genotype.end());*/
+
+	children.push_back(new CIndividual(firstNewGenotype));
+	children.push_back(new CIndividual(secondNewGenotype));
+	return children;
+}
