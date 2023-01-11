@@ -1,16 +1,10 @@
 #include "CKnapsackProblem.h"
 #include "CIndividual.h"
 
-CKnapsackProblem::CKnapsackProblem(std::vector<int> values, std::vector<int> weigths, int capacity) {
-	//pair datatype for weight/value
-	i_size = -1;
-	i_capacity = -1;
-	if (values.size() == weigths.size()) {
-		i_capacity = capacity;
-		i_size = values.size();
-		pi_values = values;
-		pi_weigths = weigths;
-	}
+CKnapsackProblem::CKnapsackProblem(std::vector<CKnapsackItem*> items, int capacity) {
+	pc_items = items;
+	i_size = items.size();
+	i_capacity = capacity;
 }
 
 int CKnapsackProblem::i_get_individual_fitness(CIndividual* pcIndividual) {
@@ -19,6 +13,14 @@ int CKnapsackProblem::i_get_individual_fitness(CIndividual* pcIndividual) {
 	return pcIndividual->i_get_fitness();
 }
 
+int CKnapsackProblem::i_get_capacity() {
+	return i_capacity;
+}
+
 int CKnapsackProblem::i_get_size() {
 	return i_size;
+}
+
+std::vector<CKnapsackItem*> CKnapsackProblem::pc_get_items() {
+	return pc_items;
 }

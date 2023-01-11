@@ -14,13 +14,15 @@ CIndividual::CIndividual(const CIndividual& pc_other) {
 void CIndividual::v_calculate_fitness(CKnapsackProblem* pcProblem) {
 	int fitness = 0;
 	int weigth = 0;
-	for (int i = 0; i < pcProblem->i_size; i++) {
+	std::vector<CKnapsackItem*> items = pcProblem->pc_get_items();
+	for (int i = 0; i < pcProblem->i_get_size(); i++) {
 		if (pc_genotype.at(i) == 1) {
-			fitness += pcProblem->pi_values.at(i);
-			weigth += pcProblem->pi_weigths.at(i);
+			fitness += items.at(i)->i_get_value();
+			weigth += items.at(i)->i_get_weigth();
 		}
 	}
-	i_fitness = (weigth > pcProblem->i_capacity) ? 0 : fitness;
+
+	i_fitness = (weigth > pcProblem->i_get_capacity()) ? 0 : fitness;
 }
 
 int CIndividual::i_get_fitness() {
