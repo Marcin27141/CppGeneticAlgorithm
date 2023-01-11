@@ -1,6 +1,9 @@
 #pragma once
 #include <vector>
 #include "CIndividual.h"
+#include <string>
+
+static const std::string DELIMITER = "::";
 
 class CKnapsackItem {
 public:
@@ -15,6 +18,7 @@ private:
 class CKnapsackProblem {
 public:
 	CKnapsackProblem(std::vector<CKnapsackItem*>, int capacity);
+	static CKnapsackProblem* pc_load_knapsackProblem_from_file(std::string filePath);
 	int i_get_individual_fitness(CIndividual* pcIndividual);
 	int i_get_capacity();
 	int i_get_size();
@@ -23,4 +27,5 @@ private:
 	int i_capacity;
 	int i_size;
 	std::vector<CKnapsackItem*> pc_items;
+	static CKnapsackItem* pc_get_knapsackItem_from_text_line(std::string line); //format: weight{delimiter}value
 };

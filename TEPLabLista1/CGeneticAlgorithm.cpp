@@ -50,7 +50,7 @@ CIndividual* CGeneticAlgorithm::pc_select_parent(std::vector<CIndividual*> popul
 	do {
 		parentOpt2 = population.at(rand() % i_pop_size);
 	} while (parentOpt2 == parentOpt1);
-	CIndividual* firstParent = (parentOpt1->i_get_fitness() >= parentOpt2->i_get_fitness()) ? parentOpt1 : parentOpt2;
+	return (parentOpt1->i_get_fitness() >= parentOpt2->i_get_fitness()) ? parentOpt1 : parentOpt2;
 }
 
 std::vector<CIndividual*> CGeneticAlgorithm::pc_cross_population(std::vector<CIndividual*> prevPopulation) {
