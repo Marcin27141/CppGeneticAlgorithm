@@ -4,6 +4,7 @@
 #include "CKnapsackProblem.h"
 
 static const int POPULATION_SIZE = 4;
+static const int MIN_POPULATION_SIZE = 2;
 static const float CROSSING_PROBABILITY = 0.6f;
 static const float MUTATION_PROBABILITY = 0.1f;
 static const int LIMIT_OF_POPULATIONS = 10;
@@ -22,6 +23,7 @@ private:
 	int i_best_solution_fitness;
 	std::vector<CIndividual*> pc_generate_population(int iGenotypeSize);
 	CIndividual* pc_get_individuals_fitness(std::vector<CIndividual*> population, CKnapsackProblem* pcProblem);
+	CIndividual* pc_select_parent(std::vector<CIndividual*> population); //should vectors be passed by reference/pointer?
 	std::vector<CIndividual*> pc_cross_population(std::vector<CIndividual*> prevPopulation);
 	void v_mutate_population(std::vector<CIndividual*>& population);
 	int i_number_of_populations;

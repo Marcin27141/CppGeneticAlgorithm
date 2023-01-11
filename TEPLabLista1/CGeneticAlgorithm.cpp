@@ -3,9 +3,9 @@
 #include <time.h>
 
 CGeneticAlgorithm::CGeneticAlgorithm(int popSize, float crossProb, float mutProb) {
-	i_pop_size = popSize;
-	f_cross_prob = crossProb;
-	f_mut_prob = mutProb;
+	i_pop_size = (popSize < MIN_POPULATION_SIZE) ? POPULATION_SIZE : popSize;
+	f_cross_prob = (crossProb < 0 || crossProb > 1) ? CROSSING_PROBABILITY : crossProb;
+	f_mut_prob = (f_mut_prob < 0 || f_mut_prob > 1) ? MUTATION_PROBABILITY : f_mut_prob;
 
 	pc_best_solution = std::vector<bool>();
 	i_best_solution_fitness = -1;
@@ -44,22 +44,25 @@ CIndividual* CGeneticAlgorithm::pc_get_individuals_fitness(std::vector<CIndividu
 	return bestIndividual;
 }
 
+CIndividual* CGeneticAlgorithm::pc_select_parent(std::vector<CIndividual*> population) {
+	CIndividual* parentOpt1 = population.at(rand() % i_pop_size);
+	CIndividual* parentOpt2;
+	do {
+		parentOpt2 = population.at(rand() % i_pop_size);
+	} while (parentOpt2 == parentOpt1);
+	CIndividual* firstParent = (parentOpt1->i_get_fitness() >= parentOpt2->i_get_fitness()) ? parentOpt1 : parentOpt2;
+}
+
 std::vector<CIndividual*> CGeneticAlgorithm::pc_cross_population(std::vector<CIndividual*> prevPopulation) {
 	std::vector<CIndividual*> pcNewPopulation;
 	while (pcNewPopulation.size() < i_pop_size) {
-		CIndividual* firstParentOpt1 = prevPopulation.at(rand() % i_pop_size);
-		CIndividual* firstParentOpt2 = prevPopulation.at(rand() % i_pop_size); //TODO can't be the same as first parent option 1
-		CIndividual* firstParent = (firstParentOpt1->i_get_fitness() >= firstParentOpt2->i_get_fitness()) ? firstParentOpt1 : firstParentOpt2;
-		//code duplication
-		CIndividual* secondParentOpt1 = prevPopulation.at(rand() % i_pop_size);
-		CIndividual* secondParentOpt2 = prevPopulation.at(rand() % i_pop_size); 
-		CIndividual* secondParent = (secondParentOpt1->i_get_fitness() >= secondParentOpt2->i_get_fitness()) ? secondParentOpt1 : secondParentOpt2;
-		//code duplication
+		CIndividual* firstParent = pc_select_parent(prevPopulation);
+		CIndividual* secondParent = pc_select_parent(prevPopulation);
 
 		if (f_cross_prob > ((double)rand() / (RAND_MAX))) {
 			std::vector<CIndividual*> children = firstParent->pc_cross_individuals(secondParent);
-			pcNewPopulation.push_back(children.at(0)); //safe?
-			pcNewPopulation.push_back(children.at(1)); //safe?
+			pcNewPopulation.push_back(children.at(0));
+			pcNewPopulation.push_back(children.at(1));
 		}
 		else {
 			pcNewPopulation.push_back(new CIndividual(*firstParent));

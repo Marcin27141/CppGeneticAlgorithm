@@ -41,23 +41,15 @@ void CIndividual::v_mutate(float f_mut_probability) {
 }
 
 std::vector<CIndividual*> CIndividual::pc_cross_individuals(CIndividual* pc_other_individual) {
-	srand(time(NULL)); //once in application?
 	int partingPoint = (rand() % (pc_genotype.size() - 1)) + 1;
-
 	std::vector<CIndividual*> children;
 
 	std::vector<bool> firstNewGenotype(pc_genotype.begin(), pc_genotype.begin() + partingPoint);
 	std::vector<bool> secondNewGenotype(pc_other_individual->pc_genotype.begin(), pc_other_individual->pc_genotype.begin() + partingPoint);
-
 	for (int i = partingPoint; i < pc_genotype.size(); i++) {
 		firstNewGenotype.push_back(pc_other_individual->pc_genotype.at(i));
 		secondNewGenotype.push_back(pc_genotype.at(i));
 	}
-
-	/*std::vector<short> firstNewGenotype(pc_genotype.begin(), pc_genotype.begin() + partingPoint);
-	std::vector<short> secondNewGenotype(pc_other_individual->pc_genotype.begin(), pc_other_individual->pc_genotype.begin() + partingPoint);
-	firstNewGenotype.insert(firstNewGenotype.end(), pc_other_individual->pc_genotype.begin() + partingPoint, pc_other_individual->pc_genotype.end());
-	secondNewGenotype.insert(secondNewGenotype.end(), pc_genotype.begin() + partingPoint, pc_genotype.end());*/
 
 	children.push_back(new CIndividual(firstNewGenotype));
 	children.push_back(new CIndividual(secondNewGenotype));
