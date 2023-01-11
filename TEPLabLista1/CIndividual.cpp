@@ -33,8 +33,11 @@ std::vector<bool>* CIndividual::pc_get_genotype() {
 	return &pc_genotype;
 }
 
-void CIndividual::v_mutate() {
-
+void CIndividual::v_mutate(float f_mut_probability) {
+	for (int i = 0; i < pc_genotype.size(); i++) {
+		if (f_mut_probability > ((double)rand() / (RAND_MAX)))
+			pc_genotype.at(i).flip();
+	}
 }
 
 std::vector<CIndividual*> CIndividual::pc_cross_individuals(CIndividual* pc_other_individual) {

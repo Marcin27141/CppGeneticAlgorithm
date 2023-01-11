@@ -46,7 +46,6 @@ CIndividual* CGeneticAlgorithm::pc_get_individuals_fitness(std::vector<CIndividu
 
 std::vector<CIndividual*> CGeneticAlgorithm::pc_cross_population(std::vector<CIndividual*> prevPopulation) {
 	std::vector<CIndividual*> pcNewPopulation;
-	srand(time(NULL));
 	while (pcNewPopulation.size() < i_pop_size) {
 		CIndividual* firstParentOpt1 = prevPopulation.at(rand() % i_pop_size);
 		CIndividual* firstParentOpt2 = prevPopulation.at(rand() % i_pop_size); //TODO can't be the same as first parent option 1
@@ -73,17 +72,13 @@ std::vector<CIndividual*> CGeneticAlgorithm::pc_cross_population(std::vector<CIn
 }
 
 void CGeneticAlgorithm::v_mutate_population(std::vector<CIndividual*>& population) {
-	srand(time(NULL));
 	for (int i = 0; i < population.size(); i++) {
-		std::vector<bool>* currentGenotype = population.at(i)->pc_get_genotype();
-		for (int j = 0; j < currentGenotype->size(); j++) {
-			if (f_mut_prob > ((double)rand() / (RAND_MAX)))
-				currentGenotype->at(j).flip();
-		}
+		population.at(i)->v_mutate(f_mut_prob);
 	}
 }
 
 void CGeneticAlgorithm::v_solve_problem(CKnapsackProblem* pcProblem) {
+	srand(time(NULL));
 	std::vector<CIndividual*> currentPopulation = pc_generate_population(pcProblem->i_get_size());
 	while (i_number_of_populations < LIMIT_OF_POPULATIONS) {
 		CIndividual* bestInPopulation = pc_get_individuals_fitness(currentPopulation, pcProblem);
