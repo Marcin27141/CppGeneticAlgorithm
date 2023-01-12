@@ -3,11 +3,11 @@
 #include "CIndividual.h"
 #include "CKnapsackProblem.h"
 
+static const double SOLVING_DURATION_IN_MILISECONDS = 10;
 static const int POPULATION_SIZE = 4;
 static const int MIN_POPULATION_SIZE = 2;
 static const float CROSSING_PROBABILITY = 0.6f;
 static const float MUTATION_PROBABILITY = 0.1f;
-static const int LIMIT_OF_POPULATIONS = 10;
 
 class CGeneticAlgorithm {
 public:

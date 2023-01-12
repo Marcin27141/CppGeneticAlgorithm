@@ -1,11 +1,12 @@
 #include "CGeneticAlgorithm.h"
 #include <random>
-#include <time.h>
+#include <chrono>
+using namespace std::chrono;
 
 CGeneticAlgorithm::CGeneticAlgorithm(int popSize, float crossProb, float mutProb) {
 	i_pop_size = (popSize < MIN_POPULATION_SIZE) ? POPULATION_SIZE : popSize;
 	f_cross_prob = (crossProb < 0 || crossProb > 1) ? CROSSING_PROBABILITY : crossProb;
-	f_mut_prob = (f_mut_prob < 0 || f_mut_prob > 1) ? MUTATION_PROBABILITY : f_mut_prob;
+	f_mut_prob = (mutProb < 0 || mutProb > 1) ? MUTATION_PROBABILITY : mutProb;
 
 	pc_best_solution = std::vector<bool>();
 	i_best_solution_fitness = -1;
@@ -83,14 +84,14 @@ void CGeneticAlgorithm::v_mutate_population(std::vector<CIndividual*>& populatio
 void CGeneticAlgorithm::v_solve_problem(CKnapsackProblem* pcProblem) {
 	srand(time(NULL));
 	std::vector<CIndividual*> currentPopulation = pc_generate_population(pcProblem->i_get_size());
-	while (i_number_of_populations < LIMIT_OF_POPULATIONS) {
+	steady_clock::time_point start = high_resolution_clock::now();
+	while ((duration_cast<milliseconds>(high_resolution_clock::now()-start)).count() < SOLVING_DURATION_IN_MILISECONDS) {
 		CIndividual* bestInPopulation = pc_get_individuals_fitness(currentPopulation, pcProblem);
 		if (bestInPopulation->i_get_fitness() > i_best_solution_fitness) {
 			pc_best_solution = *(bestInPopulation->pc_get_genotype());
 			i_best_solution_fitness = bestInPopulation->i_get_fitness();
 		}
 
-		
 		std::vector<CIndividual*> newPopulation = pc_cross_population(currentPopulation);
 		for (int i = 0; i < i_pop_size; i++) {
 			delete currentPopulation.at(i);
