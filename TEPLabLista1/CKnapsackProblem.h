@@ -18,8 +18,9 @@ private:
 class CKnapsackProblem {
 public:
 	CKnapsackProblem(std::vector<CKnapsackItem*> items, int capacity);
+	CKnapsackProblem();
 	~CKnapsackProblem();
-	static CKnapsackProblem* pc_load_knapsack_problem_from_file(std::string filePath);
+	bool b_load_knapsack_problem_from_file(std::string filePath);
 	int i_get_individual_fitness(CIndividual* pcIndividual);
 	int i_get_capacity();
 	int i_get_size();
@@ -28,5 +29,5 @@ private:
 	int i_capacity;
 	int i_size;
 	std::vector<CKnapsackItem*> pc_items;
-	static CKnapsackItem* pc_get_knapsackItem_from_text_line(std::string line);
+	CKnapsackItem* pc_get_knapsackItem_from_text_line(std::string line);
 };

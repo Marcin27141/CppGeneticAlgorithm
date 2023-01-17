@@ -8,6 +8,11 @@ CKnapsackProblem::CKnapsackProblem(std::vector<CKnapsackItem*> items, int capaci
 	i_capacity = capacity;
 }
 
+CKnapsackProblem::CKnapsackProblem() {
+	i_size = -1;
+	i_capacity = -1;
+}
+
 CKnapsackProblem::~CKnapsackProblem() {
 	for (int i = 0; i < i_size; i++) {
 		delete pc_items[i];
@@ -19,7 +24,8 @@ CKnapsackProblem::~CKnapsackProblem() {
 // {item1weigth}{delimiter}{item1value}
 // {item2weigth}{delimiter}{item2value}
 // ...
-CKnapsackProblem* CKnapsackProblem::pc_load_knapsack_problem_from_file(std::string filePath) {
+
+bool CKnapsackProblem::b_load_knapsack_problem_from_file(std::string filePath) {
 	int capacity;
 	std::vector<CKnapsackItem*> items;
 
@@ -34,7 +40,7 @@ CKnapsackProblem* CKnapsackProblem::pc_load_knapsack_problem_from_file(std::stri
 			capacity = std::stoi(nextLine);;
 		}
 		catch (...) {
-			return NULL;
+			return false;
 		}
 
 		//get knapsack items
@@ -46,16 +52,19 @@ CKnapsackProblem* CKnapsackProblem::pc_load_knapsack_problem_from_file(std::stri
 					delete items.at(i);
 				};
 				fileStream.close();
-				return NULL;
+				return false;
 			}
 			else items.push_back(nextItem);
 		}
 	}
 	else {
-		return NULL;
+		return false;
 	}
 
-	return new CKnapsackProblem(items, capacity);
+	this->pc_items = items;
+	this->i_size = pc_items.size();
+	this->i_capacity = capacity;
+	return true;
 }
 
 CKnapsackItem* CKnapsackProblem::pc_get_knapsackItem_from_text_line(std::string line) {
