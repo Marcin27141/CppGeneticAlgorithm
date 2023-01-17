@@ -70,7 +70,7 @@ CIndividual* CGeneticAlgorithm::pc_select_parent(std::vector<CIndividual*>& popu
 	return (pcParentOpt1->i_get_fitness() >= pcParentOpt2->i_get_fitness()) ? pcParentOpt1 : pcParentOpt2;
 }
 
-std::vector<CIndividual*> CGeneticAlgorithm::pc_cross_population(std::vector<CIndividual*>& prevPopulation) {
+std::vector<CIndividual*> CGeneticAlgorithm::c_cross_population(std::vector<CIndividual*>& prevPopulation) {
 	std::vector<CIndividual*> cNewPopulation;
 	while (cNewPopulation.size() < i_pop_size) {
 		CIndividual* pcFirstParent = pc_select_parent(prevPopulation);
@@ -108,7 +108,7 @@ void CGeneticAlgorithm::v_solve_problem(CKnapsackProblem* knapsackProblem) {
 			i_best_solution_fitness = pc_best_solution->i_get_fitness();
 		}
 			
-		std::vector<CIndividual*> cNewPopulation = pc_cross_population(cCurrentPopulation);
+		std::vector<CIndividual*> cNewPopulation = c_cross_population(cCurrentPopulation);
 		for (int i = 0; i < i_pop_size; i++) {
 			delete cCurrentPopulation.at(i);
 		}

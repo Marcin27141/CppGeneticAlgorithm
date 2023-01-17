@@ -31,7 +31,7 @@ private:
 	std::vector<CIndividual*> c_generate_population(int iGenotypeSize);
 	CIndividual* pc_get_individuals_fitness(std::vector<CIndividual*>& population, CKnapsackProblem* knapsackProblem);
 	CIndividual* pc_select_parent(std::vector<CIndividual*>& population);
-	std::vector<CIndividual*> pc_cross_population(std::vector<CIndividual*>& population);
+	std::vector<CIndividual*> c_cross_population(std::vector<CIndividual*>& population);
 	void v_mutate_population(std::vector<CIndividual*>& population);
 	bool b_print_record_to_file(std::string filePath);
 	int i_number_of_populations;
