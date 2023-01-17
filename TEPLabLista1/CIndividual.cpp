@@ -1,8 +1,10 @@
 #include "CIndividual.h"
 #include "CKnapsackProblem.h"
 #include <time.h>
+#include <iostream>
+#include <sstream>
 
-CIndividual::CIndividual(std::vector<bool> genotype) {
+CIndividual::CIndividual(std::vector<int> genotype) {
 	pc_genotype = genotype;
 }
 
@@ -29,14 +31,28 @@ int CIndividual::i_get_fitness() {
 	return i_fitness;
 }
 
-std::vector<bool>* CIndividual::pc_get_genotype() {
+std::vector<int>* CIndividual::pc_get_genotype() {
 	return &pc_genotype;
+}
+
+void CIndividual::v_print_genotype() {
+	for (int i = 0; i < pc_genotype.size(); i++)
+		std::cout << pc_genotype.at(i);
+	std::cout << std::endl;
+}
+
+std::string CIndividual::s_get_genotype_string() {
+	std::stringstream ss;
+	for (int i = 0; i < pc_genotype.size(); i++)
+		ss << pc_genotype.at(i);
+	return ss.str();
 }
 
 void CIndividual::v_mutate(float f_mut_probability) {
 	for (int i = 0; i < pc_genotype.size(); i++) {
-		if (f_mut_probability > ((double)rand() / (RAND_MAX)))
-			pc_genotype.at(i).flip();
+		if (f_mut_probability > ((double)rand() / (RAND_MAX))) {
+			pc_genotype.at(i) = (pc_genotype.at(i) == 1) ? 0 : 1;
+		}
 	}
 }
 
@@ -44,8 +60,8 @@ std::vector<CIndividual*> CIndividual::pc_cross_individuals(CIndividual* pc_othe
 	int partingPoint = (rand() % (pc_genotype.size() - 1)) + 1;
 	std::vector<CIndividual*> children;
 
-	std::vector<bool> firstNewGenotype(pc_genotype.begin(), pc_genotype.begin() + partingPoint);
-	std::vector<bool> secondNewGenotype(pc_other_individual->pc_genotype.begin(), pc_other_individual->pc_genotype.begin() + partingPoint);
+	std::vector<int> firstNewGenotype(pc_genotype.begin(), pc_genotype.begin() + partingPoint);
+	std::vector<int> secondNewGenotype(pc_other_individual->pc_genotype.begin(), pc_other_individual->pc_genotype.begin() + partingPoint);
 	for (int i = partingPoint; i < pc_genotype.size(); i++) {
 		firstNewGenotype.push_back(pc_other_individual->pc_genotype.at(i));
 		secondNewGenotype.push_back(pc_genotype.at(i));

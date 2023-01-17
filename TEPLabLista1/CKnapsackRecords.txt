@@ -1,0 +1,12 @@
+Sat Jan 14 21:00:57 2023
+Seed: 1673726457, Population size: 4, Crossing Probability: 0.6, Mutation Probability: 0.1
+Solving time: 10ms, Best solution: 0011, Best solution fitness: 7
+
+Sat Jan 14 21:04:04 2023
+Seed: 1673726644, Population size: 4, Crossing Probability: 0.6, Mutation Probability: 0.1
+Solving time: 10ms, Best solution: 0011, Best solution fitness: 7
+
+Sat Jan 14 21:04:09 2023
+Seed: 1673726649, Population size: 4, Crossing Probability: 0.6, Mutation Probability: 0.1
+Solving time: 10ms, Best solution: 0011, Best solution fitness: 7
+

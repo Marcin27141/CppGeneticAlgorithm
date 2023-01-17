@@ -3,12 +3,12 @@
 #include <iostream>
 int main()
 {
-	CKnapsackProblem *pcProblem = CKnapsackProblem::pc_load_knapsackProblem_from_file("CKnapsackProblem.txt");
+	CKnapsackProblem *pcProblem = CKnapsackProblem::pc_load_knapsack_problem_from_file("CKnapsackProblem.txt");
 	CGeneticAlgorithm pcAlgorithm;
 	pcAlgorithm.v_solve_problem(pcProblem);
+	pcAlgorithm.v_set_solving_time(15);
 
-	std::vector<bool> bestSolution = pcAlgorithm.pc_get_best_solution();
-	for (int i = 0; i < bestSolution.size(); i++)
-		std::cout << bestSolution.at(i);
+	CIndividual* bestIndividual = pcAlgorithm.pc_get_best_solution();
+	std::cout << bestIndividual->s_get_genotype_string() << std::endl;
 }
 
