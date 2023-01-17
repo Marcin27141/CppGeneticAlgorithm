@@ -112,7 +112,7 @@ void CGeneticAlgorithm::v_solve_problem(CKnapsackProblem* knapsackProblem) {
 
 		v_mutate_population(cCurrentPopulation);
 	}
-	//b_print_record_to_file("CKnapsackRecords.txt");
+	b_print_record_to_file(RECORDS_FILE);
 }
 
 bool CGeneticAlgorithm::b_print_record_to_file(std::string filePath) {

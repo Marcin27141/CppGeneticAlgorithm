@@ -9,6 +9,7 @@ static const int POPULATION_SIZE = 4;
 static const int MIN_POPULATION_SIZE = 2;
 static const float CROSSING_PROBABILITY = 0.6f;
 static const float MUTATION_PROBABILITY = 0.1f;
+static const std::string RECORDS_FILE = "CKnapsackRecords.txt";
 
 class CGeneticAlgorithm {
 public:
