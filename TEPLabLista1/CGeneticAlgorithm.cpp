@@ -29,62 +29,62 @@ CIndividual* CGeneticAlgorithm::pc_get_best_solution() {
 	return pc_best_solution;
 }
 
-std::vector<CIndividual*> CGeneticAlgorithm::pc_generate_population(int iGenotypeSize) {
-	std::vector<CIndividual*> pcPopulation(i_pop_size);
+std::vector<CIndividual*> CGeneticAlgorithm::c_generate_population(int genotypeSize) {
+	std::vector<CIndividual*> cPopulation(i_pop_size);
 
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<> distrib(0, 1);
 
 	for (int i = 0; i < i_pop_size; i++) {
-		std::vector<int> genome(iGenotypeSize);
-		for (int j = 0; j < iGenotypeSize; j++)
-			genome[j] = distrib(gen);
-		pcPopulation[i] = new CIndividual(genome);
+		std::vector<int> genotype(genotypeSize);
+		for (int j = 0; j < genotypeSize; j++)
+			genotype[j] = distrib(gen);
+		cPopulation[i] = new CIndividual(genotype);
 	}
 
 	i_number_of_populations++;
-	return pcPopulation;
+	return cPopulation;
 }
 
-CIndividual* CGeneticAlgorithm::pc_get_individuals_fitness(std::vector<CIndividual*>& population, CKnapsackProblem* pcProblem) {
-	CIndividual* bestIndividual = population.at(0);
+CIndividual* CGeneticAlgorithm::pc_get_individuals_fitness(std::vector<CIndividual*>& population, CKnapsackProblem* knapsackProblem) {
+	CIndividual* pcBestIndividual = population.at(0);
 	for (int i = 0; i < i_pop_size; i++) {
-		population.at(i)->v_calculate_fitness(pcProblem);
-		if (population.at(i)->i_get_fitness() > bestIndividual->i_get_fitness())
-			bestIndividual = population.at(i);
+		population.at(i)->v_calculate_fitness(knapsackProblem);
+		if (population.at(i)->i_get_fitness() > pcBestIndividual->i_get_fitness())
+			pcBestIndividual = population.at(i);
 	}
-	return bestIndividual;
+	return pcBestIndividual;
 }
 
 CIndividual* CGeneticAlgorithm::pc_select_parent(std::vector<CIndividual*>& population) {
-	CIndividual* parentOpt1 = population.at(rand() % i_pop_size);
-	CIndividual* parentOpt2 = population.at(rand() % i_pop_size);;
-	while (parentOpt2 == parentOpt1) {
-		parentOpt2 = population.at(rand() % i_pop_size);
+	CIndividual* pcParentOpt1 = population.at(rand() % i_pop_size);
+	CIndividual* pcParentOpt2 = population.at(rand() % i_pop_size);;
+	while (pcParentOpt2 == pcParentOpt1) {
+		pcParentOpt2 = population.at(rand() % i_pop_size);
 	}
-	return (parentOpt1->i_get_fitness() >= parentOpt2->i_get_fitness()) ? parentOpt1 : parentOpt2;
+	return (pcParentOpt1->i_get_fitness() >= pcParentOpt2->i_get_fitness()) ? pcParentOpt1 : pcParentOpt2;
 }
 
 std::vector<CIndividual*> CGeneticAlgorithm::pc_cross_population(std::vector<CIndividual*>& prevPopulation) {
-	std::vector<CIndividual*> pcNewPopulation;
-	while (pcNewPopulation.size() < i_pop_size) {
-		CIndividual* firstParent = pc_select_parent(prevPopulation);
-		CIndividual* secondParent = pc_select_parent(prevPopulation);
+	std::vector<CIndividual*> cNewPopulation;
+	while (cNewPopulation.size() < i_pop_size) {
+		CIndividual* pcFirstParent = pc_select_parent(prevPopulation);
+		CIndividual* pcSecondParent = pc_select_parent(prevPopulation);
 
 		if (f_cross_prob > ((double)rand() / (RAND_MAX))) {
-			std::vector<CIndividual*> children = firstParent->pc_cross_individuals(secondParent);
-			pcNewPopulation.push_back(children.at(0));
-			pcNewPopulation.push_back(children.at(1));
+			std::vector<CIndividual*> cChildren = pcFirstParent->c_cross_individuals(pcSecondParent);
+			cNewPopulation.push_back(cChildren.at(0));
+			cNewPopulation.push_back(cChildren.at(1));
 		}
 		else {
-			pcNewPopulation.push_back(new CIndividual(*firstParent));
-			pcNewPopulation.push_back(new CIndividual(*secondParent));
+			cNewPopulation.push_back(new CIndividual(*pcFirstParent));
+			cNewPopulation.push_back(new CIndividual(*pcSecondParent));
 		}
 	}
 
 	i_number_of_populations++;
-	return pcNewPopulation;
+	return cNewPopulation;
 }
 
 void CGeneticAlgorithm::v_mutate_population(std::vector<CIndividual*>& population) {
@@ -93,40 +93,40 @@ void CGeneticAlgorithm::v_mutate_population(std::vector<CIndividual*>& populatio
 	}
 }
 
-void CGeneticAlgorithm::v_solve_problem(CKnapsackProblem* pcProblem) {
-	std::vector<CIndividual*> currentPopulation = pc_generate_population(pcProblem->i_get_size());
-	steady_clock::time_point start = high_resolution_clock::now();
-	while ((duration_cast<milliseconds>(high_resolution_clock::now()-start)).count() < i_solving_time) {
-		CIndividual* bestInPopulation = pc_get_individuals_fitness(currentPopulation, pcProblem);
-		if (bestInPopulation->i_get_fitness() > i_best_solution_fitness) {
+void CGeneticAlgorithm::v_solve_problem(CKnapsackProblem* knapsackProblem) {
+	std::vector<CIndividual*> cCurrentPopulation = c_generate_population(knapsackProblem->i_get_size());
+	steady_clock::time_point cStart = high_resolution_clock::now();
+	while ((duration_cast<milliseconds>(high_resolution_clock::now()- cStart)).count() < i_solving_time) {
+		CIndividual* pcBestInPopulation = pc_get_individuals_fitness(cCurrentPopulation, knapsackProblem);
+		if (pcBestInPopulation->i_get_fitness() > i_best_solution_fitness) {
 			delete pc_best_solution;
-			pc_best_solution = new CIndividual(*bestInPopulation);
+			pc_best_solution = new CIndividual(*pcBestInPopulation);
 			i_best_solution_fitness = pc_best_solution->i_get_fitness();
 		}
 			
-		std::vector<CIndividual*> newPopulation = pc_cross_population(currentPopulation);
+		std::vector<CIndividual*> cNewPopulation = pc_cross_population(cCurrentPopulation);
 		for (int i = 0; i < i_pop_size; i++) {
-			delete currentPopulation.at(i);
+			delete cCurrentPopulation.at(i);
 		}
-		currentPopulation = newPopulation;
+		cCurrentPopulation = cNewPopulation;
 
-		v_mutate_population(currentPopulation);
+		v_mutate_population(cCurrentPopulation);
 	}
 	//b_print_record_to_file("CKnapsackRecords.txt");
 }
 
 bool CGeneticAlgorithm::b_print_record_to_file(std::string filePath) {
-	std::ofstream fileStream(filePath, std::ios::app);
-	std::string nextLine;
+	std::ofstream cFileStream(filePath, std::ios::app);
+	std::string sNextLine;
 
-	if (fileStream.is_open()) {
-		time_t my_time = time(NULL);
+	if (cFileStream.is_open()) {
+		time_t cTime = time(NULL);
 
-		fileStream << ctime(&my_time);
-		fileStream << "Seed: " << ui_seed << ", Population size: " << i_pop_size << ", Crossing Probability: " << f_cross_prob << ", Mutation Probability: " << f_mut_prob << std::endl;
-		fileStream << "Solving time: " << i_solving_time << "ms, Best solution: " << pc_best_solution->s_get_genotype_string() << ", Best solution fitness: " << i_best_solution_fitness << std::endl << std::endl;
+		cFileStream << ctime(&cTime);
+		cFileStream << "Seed: " << ui_seed << ", Population size: " << i_pop_size << ", Crossing Probability: " << f_cross_prob << ", Mutation Probability: " << f_mut_prob << std::endl;
+		cFileStream << "Solving time: " << i_solving_time << "ms, Best solution: " << pc_best_solution->s_get_genotype_string() << ", Best solution fitness: " << i_best_solution_fitness << std::endl << std::endl;
 
-		fileStream.close();
+		cFileStream.close();
 		return true;
 	}
 	else return false;

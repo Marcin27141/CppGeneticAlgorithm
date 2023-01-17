@@ -3,7 +3,7 @@
 #include <fstream>
 
 CKnapsackProblem::CKnapsackProblem(std::vector<CKnapsackItem*> items, int capacity) {
-	pc_items = items;
+	c_items = items;
 	i_size = items.size();
 	i_capacity = capacity;
 }
@@ -15,7 +15,7 @@ CKnapsackProblem::CKnapsackProblem() {
 
 CKnapsackProblem::~CKnapsackProblem() {
 	for (int i = 0; i < i_size; i++) {
-		delete pc_items[i];
+		delete c_items[i];
 	}
 }
 
@@ -26,74 +26,74 @@ CKnapsackProblem::~CKnapsackProblem() {
 // ...
 
 bool CKnapsackProblem::b_load_knapsack_problem_from_file(std::string filePath) {
-	int capacity;
-	std::vector<CKnapsackItem*> items;
+	int iCapacity;
+	std::vector<CKnapsackItem*> cItems;
 
-	std::ifstream fileStream(filePath);
-	std::string nextLine;
+	std::ifstream cFileStream(filePath);
+	std::string sNextLine;
 
-	if (fileStream.is_open()) {
+	if (cFileStream.is_open()) {
 		
 		//get capacity
-		std::getline(fileStream, nextLine);
+		std::getline(cFileStream, sNextLine);
 		try {
-			capacity = std::stoi(nextLine);;
+			iCapacity = std::stoi(sNextLine);;
 		}
 		catch (...) {
 			return false;
 		}
 
 		//get knapsack items
-		while (fileStream.good()) {
-			std::getline(fileStream, nextLine);
-			CKnapsackItem* nextItem = pc_get_knapsackItem_from_text_line(nextLine);
+		while (cFileStream.good()) {
+			std::getline(cFileStream, sNextLine);
+			CKnapsackItem* nextItem = pc_get_knapsackItem_from_text_line(sNextLine);
 			if (nextItem == NULL) {
-				for (int i = 0; i < items.size(); i++) {
-					delete items.at(i);
+				for (int i = 0; i < cItems.size(); i++) {
+					delete cItems.at(i);
 				};
-				fileStream.close();
+				cFileStream.close();
 				return false;
 			}
-			else items.push_back(nextItem);
+			else cItems.push_back(nextItem);
 		}
 	}
 	else {
 		return false;
 	}
 
-	this->pc_items = items;
-	this->i_size = pc_items.size();
-	this->i_capacity = capacity;
+	this->c_items = cItems;
+	this->i_size = c_items.size();
+	this->i_capacity = iCapacity;
 	return true;
 }
 
 CKnapsackItem* CKnapsackProblem::pc_get_knapsackItem_from_text_line(std::string line) {
-	int delimeterIndex = line.find(DELIMITER);
-	if (delimeterIndex <= 0) return NULL;
-	std::string weightStr = line.substr(0, delimeterIndex);
-	std::string valueStr = line.substr(delimeterIndex + DELIMITER.length(), line.length());
-	int weigth, value;
+	int iDelimeterIndex = line.find(DELIMITER);
+	if (iDelimeterIndex <= 0) return NULL;
+	std::string sWeightStr = line.substr(0, iDelimeterIndex);
+	std::string sValueStr = line.substr(iDelimeterIndex + DELIMITER.length(), line.length());
+	int iWeigth, iValue;
 	try {
-		weigth = std::stoi(weightStr);;
-		value = std::stoi(valueStr);;
+		iWeigth = std::stoi(sWeightStr);;
+		iValue = std::stoi(sValueStr);;
 	}
 	catch (...) {
 		return NULL;
 	}
-	return new CKnapsackItem(weigth, value);
+	return new CKnapsackItem(iWeigth, iValue);
 }
 
-int CKnapsackProblem::i_get_individual_fitness(CIndividual* pcIndividual) {
-	int fitness = 0;
-	int weigth = 0;
+int CKnapsackProblem::i_get_individual_fitness(CIndividual* individual) {
+	int iFitness = 0;
+	int iWeigth = 0;
 	for (int i = 0; i < i_size; i++) {
-		if (pcIndividual->pc_get_genotype()->at(i) == 1) {
-			fitness += pc_items.at(i)->i_get_value();
-			weigth += pc_items.at(i)->i_get_weigth();
+		if (individual->pc_get_genotype()->at(i) == 1) {
+			iFitness += c_items.at(i)->i_get_value();
+			iWeigth += c_items.at(i)->i_get_weigth();
 		}
 	}
 
-	return (weigth > i_capacity) ? 0 : fitness;
+	return (iWeigth > i_capacity) ? 0 : iFitness;
 }
 
 int CKnapsackProblem::i_get_capacity() {
@@ -104,6 +104,6 @@ int CKnapsackProblem::i_get_size() {
 	return i_size;
 }
 
-std::vector<CKnapsackItem*> CKnapsackProblem::pc_get_items() {
-	return pc_items;
+std::vector<CKnapsackItem*> CKnapsackProblem::c_get_items() {
+	return c_items;
 }
