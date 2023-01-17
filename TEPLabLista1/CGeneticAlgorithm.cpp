@@ -20,6 +20,10 @@ CGeneticAlgorithm::CGeneticAlgorithm(unsigned int randSeed, int popSize, float c
 	i_number_of_populations = 0;
 }
 
+CGeneticAlgorithm::~CGeneticAlgorithm() {
+	delete pc_best_solution;
+}
+
 void CGeneticAlgorithm::v_set_solving_time(int timeInMiliseconds) {
 	if (timeInMiliseconds > 0)
 		i_solving_time = timeInMiliseconds;

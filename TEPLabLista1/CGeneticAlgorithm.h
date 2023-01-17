@@ -16,6 +16,7 @@ public:
 	CGeneticAlgorithm(unsigned int randSeed, int popSize, float crossProb, float mutProb);
 	CGeneticAlgorithm(int popSize, float crossProb, float mutProb) : CGeneticAlgorithm(time(NULL), POPULATION_SIZE, CROSSING_PROBABILITY, MUTATION_PROBABILITY) {}
 	CGeneticAlgorithm() : CGeneticAlgorithm(POPULATION_SIZE, CROSSING_PROBABILITY, MUTATION_PROBABILITY) {}
+	~CGeneticAlgorithm();
 	void v_set_solving_time(int timeInMiliseconds);
 	void v_solve_problem(CKnapsackProblem* pcProblem);
 	CIndividual* pc_get_best_solution();
