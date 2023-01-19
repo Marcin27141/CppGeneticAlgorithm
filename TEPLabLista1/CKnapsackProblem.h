@@ -4,6 +4,9 @@
 #include <string>
 
 static const std::string DELIMITER = "::";
+static const int FILE_LOAD_SUCCESSFUL = 0;
+static const int FILE_NOT_OPENED_ERROR = 1;
+static const int FILE_FORMAT_ERROR = 2;
 
 class CKnapsackItem {
 public:
@@ -20,7 +23,7 @@ public:
 	CKnapsackProblem(std::vector<CKnapsackItem*> items, int capacity);
 	CKnapsackProblem();
 	~CKnapsackProblem();
-	bool b_load_knapsack_problem_from_file(std::string filePath);
+	int i_load_knapsack_problem_from_file(std::string filePath);
 	int i_get_individual_fitness(CIndividual* individual);
 	int i_get_capacity();
 	int i_get_size();

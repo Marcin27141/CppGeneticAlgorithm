@@ -25,7 +25,7 @@ CKnapsackProblem::~CKnapsackProblem() {
 // {item2weigth}{delimiter}{item2value}
 // ...
 
-bool CKnapsackProblem::b_load_knapsack_problem_from_file(std::string filePath) {
+int CKnapsackProblem::i_load_knapsack_problem_from_file(std::string filePath) {
 	int iCapacity;
 	std::vector<CKnapsackItem*> cItems;
 
@@ -40,7 +40,7 @@ bool CKnapsackProblem::b_load_knapsack_problem_from_file(std::string filePath) {
 			iCapacity = std::stoi(sNextLine);;
 		}
 		catch (...) {
-			return false;
+			return FILE_FORMAT_ERROR;
 		}
 
 		//get knapsack items
@@ -52,19 +52,17 @@ bool CKnapsackProblem::b_load_knapsack_problem_from_file(std::string filePath) {
 					delete cItems.at(i);
 				};
 				cFileStream.close();
-				return false;
+				return FILE_FORMAT_ERROR;
 			}
 			else cItems.push_back(nextItem);
 		}
 	}
-	else {
-		return false;
-	}
+	else return FILE_NOT_OPENED_ERROR;
 
 	this->c_items = cItems;
 	this->i_size = c_items.size();
 	this->i_capacity = iCapacity;
-	return true;
+	return FILE_LOAD_SUCCESSFUL;
 }
 
 CKnapsackItem* CKnapsackProblem::pc_get_knapsackItem_from_text_line(std::string line) {

@@ -4,11 +4,11 @@
 int main()
 {
 	CKnapsackProblem* pcProblem = new CKnapsackProblem();
-	bool loadSucceded = pcProblem->b_load_knapsack_problem_from_file("CKnapsackProblem.txt");
+	int loadResult = pcProblem->i_load_knapsack_problem_from_file("CKnapsackProblem.txt");
 	CGeneticAlgorithm pcAlgorithm;
 	pcAlgorithm.v_set_solving_time(15);
 
-	if (loadSucceded) {
+	if (loadResult == FILE_LOAD_SUCCESSFUL) {
 		pcAlgorithm.v_solve_problem(pcProblem);
 
 		CIndividual* bestIndividual = pcAlgorithm.pc_get_best_solution();
