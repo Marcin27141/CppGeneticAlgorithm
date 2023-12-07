@@ -29,26 +29,26 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -139,28 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AllocationMethods.cpp" />
     <ClCompile Include="CGeneticAlgorithm.cpp" />
     <ClCompile Include="CIndividual.cpp" />
     <ClCompile Include="CKnapsackProblem.cpp" />
-    <ClCompile Include="CTab.cpp" />
-    <ClCompile Include="CTable.cpp" />
-    <ClCompile Include="CTreeDynamic.cpp" />
-    <ClCompile Include="CTreeStatic.cpp" />
     <ClCompile Include="TEPLabLista1.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AllocationMethods.h" />
     <ClInclude Include="CGeneticAlgorithm.h" />
     <ClInclude Include="CIndividual.h" />
     <ClInclude Include="CKnapsackProblem.h" />
-    <ClInclude Include="CMySmartPointer.h" />
-    <ClInclude Include="CTab.h" />
-    <ClInclude Include="CTable.h" />
-    <ClInclude Include="CTreeDynamic.h" />
-    <ClInclude Include="CTreeDynamicT.h" />
-    <ClInclude Include="CTreeStatic.h" />
-    <ClInclude Include="MainConstants.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
